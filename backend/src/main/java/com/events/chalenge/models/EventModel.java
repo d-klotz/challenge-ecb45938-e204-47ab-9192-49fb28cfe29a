@@ -1,15 +1,14 @@
 package com.events.chalenge.models;
 
+import com.events.chalenge.models.InstitutionModel;
 import jakarta.persistence.*;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.UUID;
-
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.UUID;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
