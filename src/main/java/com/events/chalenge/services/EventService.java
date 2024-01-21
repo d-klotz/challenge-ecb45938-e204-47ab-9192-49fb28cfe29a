@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,6 +24,8 @@ public class EventService {
     private InstitutionRepository institutionRepository;
 
     public EventModel createEvent(EventRecordDto eventRecordDto) {
+
+        //todo: move this logic to InstutionService
         InstitutionModel institution =
                 institutionRepository
                         .findById(UUID.fromString(eventRecordDto.institutionId()))
@@ -33,6 +36,7 @@ public class EventService {
 
         EventModel eventModel = new EventModel();
         BeanUtils.copyProperties(eventRecordDto, eventModel);
+        eventModel.setActive(this.isEventStartingToday(eventRecordDto));
         eventModel.setInstitution(institution);
         return eventRepository.save(eventModel);
     }
@@ -70,5 +74,9 @@ public class EventService {
         } else {
             return false;
         }
+    }
+
+    private boolean isEventStartingToday(EventRecordDto eventRecordDto) {
+        return eventRecordDto.startDate().isEqual(LocalDate.now());
     }
 }

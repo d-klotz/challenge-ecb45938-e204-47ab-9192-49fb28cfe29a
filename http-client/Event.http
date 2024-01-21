@@ -3,9 +3,9 @@ POST localhost:8080/events
 Content-Type: application/json
 
 {
-  "name": "Demonstracao de Resultados 2025",
-  "startDate": "2025-05-01",
-  "endDate": "2025-05-02",
+  "name": "Lançamento de Resultados 2024",
+  "startDate": "2024-01-21",
+  "endDate": "2024-01-22",
   "institutionId": "9d65ab9d-2485-4979-b72d-cf3595dad761"
 }
 
