@@ -14,6 +14,8 @@ public class InstitutionModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String name;
+
+    @Enumerated(EnumType.STRING)
     private IntitutionType type;
 
     public UUID getId() {
