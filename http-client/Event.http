@@ -3,15 +3,14 @@ POST localhost:8080/events
 Content-Type: application/json
 
 {
-  "name": "Demonstracao de Resultados 2019",
-  "startDate": "2020-01-01",
-  "endDate": "2020-01-02",
-  "active": true,
+  "name": "Demonstracao de Resultados 2025",
+  "startDate": "2025-05-01",
+  "endDate": "2025-05-02",
   "institutionId": "9d65ab9d-2485-4979-b72d-cf3595dad761"
 }
 
 ### Gets an event by Id
-GET localhost:8080/events/b3b1bd37-2c61-453f-b493-4192be10a392
+GET localhost:8080/events/9dafdb02-e824-4f71-8277-2422bec5e9c1
 Accept: application/json
 
 ### Gets all events
@@ -19,16 +18,15 @@ GET localhost:8080/events
 Accept: application/json
 
 ### Updates an event
-PUT localhost:8080/events/b3b1bd37-2c61-453f-b493-4192be10a392
+PUT localhost:8080/events/04ba736b-b90c-453e-9bf0-85e40a247079
 Content-Type: application/json
 
 {
-  "name": "Demonstracao de Resultados 2020",
-  "startDate": "2020-02-01",
-  "endDate": "2020-02-02",
-  "active": true,
+  "name": "Demonstracao de Resultados 2026",
+  "startDate": "2026-02-01",
+  "endDate": "2026-02-02",
   "institutionId": "78177c74-82dd-4b1e-86a2-8a5cde156cc1"
 }
 
 ### Deletes an event
-DELETE localhost:8080/events/b3b1bd37-2c61-453f-b493-4192be10a392
+DELETE localhost:8080/events/04ba736b-b90c-453e-9bf0-85e40a247079

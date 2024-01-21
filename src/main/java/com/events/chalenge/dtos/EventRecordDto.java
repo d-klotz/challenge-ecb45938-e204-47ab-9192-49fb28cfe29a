@@ -7,7 +7,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public record EventRecordDto(
     @NotBlank String name,
-    @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd") String startDate,
-    @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd") String endDate,
-    @NotNull boolean active,
+    @NotNull LocalDate startDate,
+    @NotNull LocalDate endDate,
     @NotBlank String institutionId) {}
