@@ -3,9 +3,9 @@ POST localhost:8080/events
 Content-Type: application/json
 
 {
-  "name": "Lançamento de Resultados 2024",
+  "name": "Festa do RH",
   "startDate": "2024-01-21",
-  "endDate": "2024-01-22",
+  "endDate": "2024-01-21",
   "institutionId": "9d65ab9d-2485-4979-b72d-cf3595dad761"
 }
 
