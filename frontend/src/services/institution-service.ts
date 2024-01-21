@@ -24,3 +24,21 @@ export const createInstitution = async (
     return false;
   }
 };
+
+export const deleteInstitution = async (id: string): Promise<boolean> => {
+  try {
+    const response = await fetch(`http://localhost:8080/institutions/${id}`, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      console.error("Failed to delete institution:", response.statusText);
+      return false;
+    }
+  } catch (error: any) {
+    console.error("Error deleting institution:", error.message);
+    return false;
+  }
+};

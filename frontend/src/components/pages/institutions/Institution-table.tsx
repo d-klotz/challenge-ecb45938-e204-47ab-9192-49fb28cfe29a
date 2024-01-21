@@ -14,8 +14,8 @@ import { Institution } from "../../../types/institution.ts";
 
 interface InstitutionTableProps {
   institutions: Institution[];
-  onEdit: (id: string) => void;
-  onDelete: (id: string) => void;
+  onEdit: (institution: Institution) => void;
+  onDelete: (institution: Institution) => void;
 }
 
 const InstitutionTable: React.FC<InstitutionTableProps> = ({
@@ -53,14 +53,14 @@ const InstitutionTable: React.FC<InstitutionTableProps> = ({
                   icon={<EditIcon />}
                   colorScheme="orange"
                   aria-label="Edit"
-                  onClick={() => onEdit(institution.id)}
+                  onClick={() => onEdit(institution)}
                   mr={2}
                 />
                 <IconButton
                   icon={<DeleteIcon />}
                   colorScheme="red"
                   aria-label="Delete"
-                  onClick={() => onDelete(institution.id)}
+                  onClick={() => onDelete(institution)}
                 />
               </Td>
             </Tr>
