@@ -5,6 +5,11 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
+
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -17,11 +22,16 @@ public class EventModel implements Serializable {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private UUID id;
 
+  @NotBlank(message = "Event name cannot be empty or null.")
   private String name;
 
+  @NotNull(message = "Start date cannot be null.")
+  @FutureOrPresent(message = "Start date must be in the present or future.")
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private LocalDate startDate;
 
+  @NotNull(message = "End date cannot be null.")
+  @FutureOrPresent(message = "End date must be in the present or future.")
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private LocalDate endDate;
 
@@ -30,6 +40,11 @@ public class EventModel implements Serializable {
   @ManyToOne
   @JoinColumn(name = "institution_id")
   private InstitutionModel institution;
+
+  @AssertTrue(message = "Start date must be before the end date.")
+  private boolean isValidDateRange() {
+    return startDate == null || endDate == null || !startDate.isAfter(endDate);
+  }
 
   public UUID getId() {
     return id;
