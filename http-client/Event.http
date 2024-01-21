@@ -1,0 +1,11 @@
+### Creates a new event
+POST localhost:8080/events
+Content-Type: application/json
+
+{
+  "name": "Event 23434",
+  "startDate": "2020-01-01",
+  "endDate": "2020-01-02",
+  "active": true,
+  "institutionId": "9d65ab9d-2485-4979-b72d-cf3595dad761"
+}
