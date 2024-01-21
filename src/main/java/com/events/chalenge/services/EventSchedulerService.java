@@ -22,21 +22,24 @@ public class EventSchedulerService {
     public void updateEventStatus() {
         System.out.println("....................................");
         System.out.println("Starting event status update...");
-        
+
+        //todo: fetch only events that are not in the past, as they will never change its status back to active
         List<EventModel> events = this.eventRepository.findAll();
+        System.out.println("Fetched " + events.size() + " events");
+
         LocalDate currentDate = LocalDate.now();
         var amountOfUpdatedEvents = 0;
 
         for (EventModel event : events) {
-            if (currentDate.isEqual(event.getStartDate()) || currentDate.isAfter(event.getStartDate())) {
+            if (currentDate.isEqual(event.getStartDate()) && !event.isActive()) {
                 event.setActive(true);
-                amountOfUpdatedEvents++;
-            } else if (currentDate.isAfter(event.getEndDate())) {
+                amountOfUpdatedEvents += 1 ;
+                this.eventRepository.save(event);
+            } else if (currentDate.isAfter(event.getEndDate()) && event.isActive()) {
                 event.setActive(false);
-                amountOfUpdatedEvents++;
+                amountOfUpdatedEvents+= 1;
+                this.eventRepository.save(event);
             }
-
-            this.eventRepository.save(event);
         }
 
         System.out.println("Amount of updated events: " + amountOfUpdatedEvents);
