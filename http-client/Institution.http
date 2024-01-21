@@ -3,7 +3,7 @@ POST localhost:8080/institutions
 Content-Type: application/json
 
 {
-  "name": "Neo Bank Unlimited 123",
+  "name": "Cyclic Bank Inc.",
   "type": "CENTRAL"
 }
 

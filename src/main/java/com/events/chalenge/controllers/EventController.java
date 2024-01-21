@@ -64,13 +64,27 @@ public class EventController {
 
   @PutMapping("/events/{id}")
   public ResponseEntity<EventModel> updateEvent(
-      @PathVariable UUID id, @RequestBody @Valid EventModel updatedEvent) {
+      @PathVariable UUID id, @RequestBody @Valid EventRecordDto eventRecordDto) {
     Optional<EventModel> optionalExistingEvent = eventRepository.findById(id);
+
+    LocalDate startDate = LocalDate.parse(eventRecordDto.startDate());
+    LocalDate endDate = LocalDate.parse(eventRecordDto.endDate());
+
+    InstitutionModel institution =
+            institutionRepository
+                    .findById(UUID.fromString(eventRecordDto.institutionId()))
+                    .orElseThrow(
+                            () ->
+                                    new IllegalArgumentException(
+                                            "Institution not found with ID: " + eventRecordDto.institutionId()));
 
     return optionalExistingEvent
         .map(
             existingEvent -> {
-              BeanUtils.copyProperties(updatedEvent, existingEvent);
+              BeanUtils.copyProperties(eventRecordDto, existingEvent);
+              existingEvent.setStartDate(startDate);
+              existingEvent.setEndDate(endDate);
+              existingEvent.setInstitution(institution);
               EventModel savedEvent = eventRepository.save(existingEvent);
               return ResponseEntity.ok().body(savedEvent);
             })
