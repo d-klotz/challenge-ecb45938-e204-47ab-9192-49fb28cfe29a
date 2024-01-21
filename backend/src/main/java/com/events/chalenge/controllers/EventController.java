@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class EventController {
 
-  @Autowired
-  private EventService eventService;
+  @Autowired private EventService eventService;
 
   @PostMapping("/events")
   public ResponseEntity<EventModel> createEvent(@RequestBody EventRecordDto eventDto) {
@@ -33,16 +32,19 @@ public class EventController {
   public ResponseEntity<EventModel> getEventById(@PathVariable UUID id) {
     Optional<EventModel> optionalEvent = eventService.getEventById(id);
 
-    return optionalEvent.map(event -> ResponseEntity.ok().body(event))
-            .orElseGet(() -> ResponseEntity.notFound().build());
+    return optionalEvent
+        .map(event -> ResponseEntity.ok().body(event))
+        .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   @PutMapping("/events/{id}")
-  public ResponseEntity<EventModel> updateEvent(@PathVariable UUID id, @RequestBody EventRecordDto eventDto) {
+  public ResponseEntity<EventModel> updateEvent(
+      @PathVariable UUID id, @RequestBody EventRecordDto eventDto) {
     Optional<EventModel> optionalUpdatedEvent = eventService.updateEvent(id, eventDto);
 
-    return optionalUpdatedEvent.map(event -> ResponseEntity.ok().body(event))
-            .orElseGet(() -> ResponseEntity.notFound().build());
+    return optionalUpdatedEvent
+        .map(event -> ResponseEntity.ok().body(event))
+        .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   @DeleteMapping("/events/{id}")
