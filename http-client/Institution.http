@@ -3,8 +3,8 @@ POST localhost:8080/institutions
 Content-Type: application/json
 
 {
-    "name": "Neo Bank Unlimited",
-    "type": "CENTRAL"
+  "name": "Neo Bank Unlimited 123",
+  "type": "CENTRAL"
 }
 
 ### Gets an institution by id
@@ -21,8 +21,8 @@ PUT localhost:8080/institutions/018f5469-918e-45c8-840f-1b6ecb896cd8
 Content-Type: application/json
 
 {
-    "name": "Neo Bank Unlimited",
-    "type": "SINGULAR"
+  "name": "Neo Bank Unlimited",
+  "type": "SINGULAR"
 }
 
 
