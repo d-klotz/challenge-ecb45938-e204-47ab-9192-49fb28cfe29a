@@ -1,9 +1,7 @@
 package com.events.chalenge.models;
 
-import com.events.chalenge.models.InstitutionModel;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -25,12 +23,10 @@ public class EventModel implements Serializable {
   private String name;
 
   @NotNull(message = "Start date cannot be null.")
-  @FutureOrPresent(message = "Start date must be in the present or future.")
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private LocalDate startDate;
 
   @NotNull(message = "End date cannot be null.")
-  @FutureOrPresent(message = "End date must be in the present or future.")
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private LocalDate endDate;
 
