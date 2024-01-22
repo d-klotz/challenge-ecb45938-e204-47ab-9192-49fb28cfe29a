@@ -1,9 +1,4 @@
-import { Institution } from "./institution.ts";
+import { z } from "zod";
+import { EventSchema } from "../validations/event-schema.ts";
 
-export type Event = {
-  id: string;
-  name: string;
-  startDate: string;
-  endDate: string;
-  institution: Institution;
-};
+export type Event = z.infer<typeof EventSchema>;

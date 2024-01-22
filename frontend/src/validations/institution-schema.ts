@@ -15,6 +15,7 @@ export const InstitutionTypeSchema = z.nativeEnum(InstitutionType, {
 });
 
 export const InstitutionSchema = z.object({
+  id: z.string().optional(),
   name: z.string().min(1, { message: "Nome é obrigatório" }),
   type: InstitutionTypeSchema,
 });

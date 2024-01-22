@@ -10,16 +10,16 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { Institution } from "../../../types/institution.ts";
+import { Event } from "../../../types/event.ts";
 
-interface InstitutionTableProps {
-  institutions: Institution[];
-  onEdit: (institution: Institution) => void;
-  onDelete: (institution: Institution) => void;
+interface EventTableProps {
+  events: Event[];
+  onEdit: (event: Event) => void;
+  onDelete: (event: Event) => void;
 }
 
-const InstitutionTable: React.FC<InstitutionTableProps> = ({
-  institutions,
+const EventTable: React.FC<EventTableProps> = ({
+  events,
   onEdit,
   onDelete,
 }) => {
@@ -35,32 +35,32 @@ const InstitutionTable: React.FC<InstitutionTableProps> = ({
         <Thead>
           <Tr>
             <Th>Nome</Th>
-            <Th>Tipo</Th>
+            <Th>Início</Th>
+            <Th>Término</Th>
+            <Th>Instituição</Th>
             <Th>Ações</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {institutions.map((institution) => (
-            <Tr
-              key={institution.id}
-              borderTopWidth="1px"
-              borderColor="gray.600"
-            >
-              <Td>{institution.name}</Td>
-              <Td>{institution.type}</Td>
+          {events.map((event) => (
+            <Tr key={event.id} borderTopWidth="1px" borderColor="gray.600">
+              <Td>{event.name}</Td>
+              <Td>{event.startDate.toString()}</Td>
+              <Td>{event.endDate.toString()}</Td>
+              <Td>{event.institution.name}</Td>
               <Td>
                 <IconButton
                   icon={<EditIcon />}
                   colorScheme="orange"
                   aria-label="Edit"
-                  onClick={() => onEdit(institution)}
+                  onClick={() => onEdit(event)}
                   mr={2}
                 />
                 <IconButton
                   icon={<DeleteIcon />}
                   colorScheme="red"
                   aria-label="Delete"
-                  onClick={() => onDelete(institution)}
+                  onClick={() => onDelete(event)}
                 />
               </Td>
             </Tr>
@@ -71,4 +71,4 @@ const InstitutionTable: React.FC<InstitutionTableProps> = ({
   );
 };
 
-export default InstitutionTable;
+export default EventTable;

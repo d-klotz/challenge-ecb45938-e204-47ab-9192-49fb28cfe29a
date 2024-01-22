@@ -17,41 +17,45 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { ZodError } from "zod";
-import { InstitutionSchema } from "../../../validations/institution-schema.ts";
-import { InstitutionType } from "../../../types/institution-type.ts";
-import {
-  createInstitution,
-  updateInstitution,
-} from "../../../services/institution-service.ts";
+import { Event } from "../../../types/event.ts";
+import { createEvent, updateEvent } from "../../../services/event-service.ts";
+import { EventSchema } from "../../../validations/event-schema.ts";
 import { Institution } from "../../../types/institution.ts";
+import { css } from "@emotion/react";
 
 interface CustomModalProps {
   isOpen: boolean;
   onClose: () => void;
-  selectedInstitution?: Institution;
+  selectedEvent?: Event;
+  institutions: Institution[];
 }
 
-const CreateEditModal: React.FC<CustomModalProps> = ({
+const CreateEditEventModal: React.FC<CustomModalProps> = ({
   isOpen,
   onClose,
-  selectedInstitution,
+  selectedEvent,
+  institutions,
 }) => {
   const [formData, setFormData] = useState({
     name: "",
-    type: "",
+    startDate: new Date(),
+    endDate: new Date(),
+    institution: undefined as unknown as Institution,
   });
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
   const [isLoading, setIsLoading] = useState(false);
-  const isEditMode = !!selectedInstitution;
+  const isEditMode = !!selectedEvent;
 
   useEffect(() => {
-    if (selectedInstitution) {
+    if (selectedEvent) {
       setFormData({
-        name: selectedInstitution.name,
-        type: selectedInstitution.type,
+        name: selectedEvent.name,
+        startDate: selectedEvent.startDate,
+        endDate: selectedEvent.endDate,
+        institution: selectedEvent.institution,
       });
     }
-  }, [selectedInstitution]);
+  }, [selectedEvent]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -67,11 +71,11 @@ const CreateEditModal: React.FC<CustomModalProps> = ({
     e.preventDefault();
 
     try {
-      const validatedFormData = InstitutionSchema.parse(formData);
+      const validatedFormData = EventSchema.parse(formData);
       setIsLoading(true);
       const result = isEditMode
-        ? await updateInstitution(selectedInstitution.id, validatedFormData)
-        : await createInstitution(validatedFormData);
+        ? await updateEvent(validatedFormData)
+        : await createEvent(validatedFormData);
       setIsLoading(false);
 
       if (result) {
@@ -91,7 +95,12 @@ const CreateEditModal: React.FC<CustomModalProps> = ({
   };
 
   const onModalClose = () => {
-    setFormData({ name: "", type: "" });
+    setFormData({
+      name: "",
+      startDate: new Date(),
+      endDate: new Date(),
+      institution: undefined as unknown as Institution,
+    });
     setFormErrors({});
     onClose();
   };
@@ -101,7 +110,7 @@ const CreateEditModal: React.FC<CustomModalProps> = ({
       <ModalOverlay />
       <ModalContent bg="gray.800" color="white">
         <ModalHeader>
-          {isEditMode ? "Alteração de Instituição" : "Cadastro de Instituição"}
+          {isEditMode ? "Alteração de Evento" : "Cadastro de Evento"}
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -123,26 +132,68 @@ const CreateEditModal: React.FC<CustomModalProps> = ({
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor="type">Tipo</FormLabel>
-                <Select
-                  id="type"
-                  name="type"
-                  value={formData.type}
+                <FormLabel htmlFor="startDate">Data de Início</FormLabel>
+                <Input
+                  css={css`
+                    ::-webkit-calendar-picker-indicator {
+                      background: none;
+                    }
+                  `}
+                  type="date"
+                  id="startDate"
+                  name="startDate"
+                  value={formData.startDate.toString()}
                   onChange={handleInputChange}
-                  placeholder="Selecione o tipo"
+                  placeholder="Selecione uma data de início"
+                />
+                {formErrors["startDate"] && (
+                  <div style={{ color: "red" }}>{formErrors["startDate"]}</div>
+                )}
+              </FormControl>
+
+              <FormControl>
+                <FormLabel htmlFor="endDateDate">Data de Término</FormLabel>
+                <Input
+                  css={css`
+                    ::-webkit-calendar-picker-indicator {
+                      background: none;
+                    }
+                  `}
+                  type="date"
+                  id="endDate"
+                  name="endDate"
+                  value={formData.endDate.toString()}
+                  onChange={handleInputChange}
+                  placeholder="Selecione uma data de término"
+                />
+                {formErrors["endDate"] && (
+                  <div style={{ color: "red" }}>{formErrors["endDate"]}</div>
+                )}
+              </FormControl>
+
+              <FormControl>
+                <FormLabel htmlFor="institution">Instituição</FormLabel>
+                <Select
+                  id="institution"
+                  name="institution"
+                  value={formData.institution?.id || undefined}
+                  onChange={handleInputChange}
+                  placeholder="Selecione a instituição"
                 >
-                  {Object.entries(institutionTypeMap).map(([key, value]) => (
+                  {institutions.map((institution) => (
                     <option
-                      key={key}
-                      value={value}
+                      key={institution.id}
+                      value={institution.id}
                       style={{ background: "#30303b", color: "white" }}
                     >
-                      {key}
+                      {institution.name}
                     </option>
                   ))}
                 </Select>
-                {formErrors["type"] && (
-                  <div style={{ color: "red" }}>{formErrors["type"]}</div>
+                {formErrors["institution"] && (
+                  <div style={{ color: "red" }}>
+                    {formErrors["institution"]}
+                  </div>
                 )}
               </FormControl>
               <ButtonGroup>
@@ -167,11 +218,4 @@ const CreateEditModal: React.FC<CustomModalProps> = ({
   );
 };
 
-export default CreateEditModal;
-
-const institutionTypeMap: Record<string, InstitutionType> = {
-  Confederacao: InstitutionType.confederacao,
-  Singular: InstitutionType.singular,
-  Central: InstitutionType.central,
-  Cooperativa: InstitutionType.cooperativa,
-};
+export default CreateEditEventModal;

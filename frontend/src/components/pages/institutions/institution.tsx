@@ -11,7 +11,7 @@ import {
 import InstitutionTable from "./Institution-table.tsx";
 import { Institution } from "../../../types/institution.ts";
 import useSWR from "swr";
-import CreateEditModal from "./create-edit-modal.tsx";
+import CreateEditInstitutionModal from "./create-edit-institution-modal.tsx";
 import DeleteInstitutionModal from "./delete-institution-modal.tsx";
 import { useState } from "react";
 
@@ -68,12 +68,12 @@ const Institutions = () => {
         onEdit={openEditModal}
       />
 
-      <CreateEditModal
+      <CreateEditInstitutionModal
         isOpen={isOpen}
         onClose={handleCloseForCreateEditModal}
         selectedInstitution={selectedInstitution}
       />
-      {selectedInstitution && (
+      {selectedInstitution && selectedInstitution.id && (
         <DeleteInstitutionModal
           isOpen={isDeleteOpen}
           onClose={onDeleteClose}

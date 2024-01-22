@@ -1,7 +1,4 @@
-import { InstitutionType } from "./institution-type.ts";
+import { InstitutionSchema } from "../validations/institution-schema.ts";
+import { z } from "zod";
 
-export type Institution = {
-  id: string;
-  name: string;
-  type: InstitutionType;
-};
+export type Institution = z.infer<typeof InstitutionSchema>;
