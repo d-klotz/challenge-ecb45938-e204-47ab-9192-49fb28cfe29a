@@ -8,7 +8,7 @@ Content-Type: application/json
 }
 
 ### Gets an institution by id
-GET localhost:8080/institutions/317e5866-e0b3-489e-828b-f08d4d9b2399
+GET localhost:8080/institutions/c2498ab9-fb33-4a36-92d8-f1ff537f0cdc
 Accept: application/json
 
 ### Gets all institutions
@@ -17,15 +17,15 @@ Accept: application/json
 
 
 ### Updates an institution
-PUT localhost:8080/institutions/018f5469-918e-45c8-840f-1b6ecb896cd8
+PUT localhost:8080/institutions/c2498ab9-fb33-4a36-92d8-f1ff537f0cdc
 Content-Type: application/json
 
 {
-  "name": "Neo Bank Unlimited",
+  "name": "Cyclic Bank Inc.",
   "type": "SINGULAR"
 }
 
 
 ### Deletes an institution
-DELETE localhost:8080/institutions/018f5469-918e-45c8-840f-1b6ecb896cd8
+DELETE localhost:8080/institutions/c2498ab9-fb33-4a36-92d8-f1ff537f0cdc
 Accept: application/json

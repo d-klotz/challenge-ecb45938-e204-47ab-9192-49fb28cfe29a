@@ -26,13 +26,13 @@ public class InstitutionController {
   @PostMapping("/institutions")
   public ResponseEntity<InstitutionModel> createInstitution(
       @RequestBody @Valid InstitutionRecordDto institutionRecordDto) {
-    InstitutionModel institution = institutionService.createInstitution(institutionRecordDto);
+    InstitutionModel institution = this.institutionService.createInstitution(institutionRecordDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(institution);
   }
 
   @GetMapping("/institutions/{id}")
   public ResponseEntity<InstitutionModel> getInstitutionById(@PathVariable UUID id) {
-    Optional<InstitutionModel> optionalInstitution = institutionService.getInstitutionById(id);
+    Optional<InstitutionModel> optionalInstitution = this.institutionService.getInstitutionById(id);
 
     return optionalInstitution
         .map(institution -> ResponseEntity.ok().body(institution))
@@ -41,7 +41,7 @@ public class InstitutionController {
 
   @GetMapping("/institutions")
   public ResponseEntity<List<InstitutionModel>> getAllInstitutions() {
-    List<InstitutionModel> institutions = institutionService.getAllInstitutions();
+    List<InstitutionModel> institutions = this.institutionService.getAllInstitutions();
     return ResponseEntity.ok().body(institutions);
   }
 
@@ -49,7 +49,7 @@ public class InstitutionController {
   public ResponseEntity<InstitutionModel> updateInstitution(
       @PathVariable UUID id, @RequestBody @Valid InstitutionRecordDto updatedInstitutionDto) {
     Optional<InstitutionModel> updatedInstitution =
-        institutionService.updateInstitution(id, updatedInstitutionDto);
+        this.institutionService.updateInstitution(id, updatedInstitutionDto);
 
     return updatedInstitution
         .map(ResponseEntity::ok)
@@ -58,7 +58,7 @@ public class InstitutionController {
 
   @DeleteMapping("/institutions/{id}")
   public ResponseEntity<Void> deleteInstitution(@PathVariable UUID id) {
-    if (institutionService.deleteInstitution(id)) {
+    if (this.institutionService.deleteInstitution(id)) {
       return ResponseEntity.noContent().build();
     } else {
       return ResponseEntity.notFound().build();

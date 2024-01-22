@@ -17,66 +17,63 @@ import java.util.UUID;
 @Service
 public class EventService {
 
-    @Autowired
-    private EventRepository eventRepository;
+  @Autowired private EventRepository eventRepository;
 
-    @Autowired
-    private InstitutionRepository institutionRepository;
+  @Autowired private InstitutionService institutionService;
 
-    public EventModel createEvent(EventRecordDto eventRecordDto) {
+  public EventModel createEvent(EventRecordDto eventRecordDto) {
+    InstitutionModel institution =
+        this.institutionService
+            .getInstitutionById(UUID.fromString(eventRecordDto.institutionId()))
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException(
+                        "Institution not found with ID: " + eventRecordDto.institutionId()));
 
-        //todo: move this logic to InstutionService
-        InstitutionModel institution =
-                institutionRepository
-                        .findById(UUID.fromString(eventRecordDto.institutionId()))
-                        .orElseThrow(
-                                () ->
-                                        new IllegalArgumentException(
-                                                "Institution not found with ID: " + eventRecordDto.institutionId()));
+    EventModel eventModel = new EventModel();
+    BeanUtils.copyProperties(eventRecordDto, eventModel);
+    eventModel.setActive(this.isEventStartingToday(eventRecordDto));
+    eventModel.setInstitution(institution);
+    return eventRepository.save(eventModel);
+  }
 
-        EventModel eventModel = new EventModel();
-        BeanUtils.copyProperties(eventRecordDto, eventModel);
-        eventModel.setActive(this.isEventStartingToday(eventRecordDto));
-        eventModel.setInstitution(institution);
-        return eventRepository.save(eventModel);
-    }
+  public List<EventModel> getAllEvents() {
+    return eventRepository.findAll();
+  }
 
-    public List<EventModel> getAllEvents() {
-        return eventRepository.findAll();
-    }
+  public Optional<EventModel> getEventById(UUID id) {
+    return eventRepository.findById(id);
+  }
 
-    public Optional<EventModel> getEventById(UUID id) {
-        return eventRepository.findById(id);
-    }
+  public Optional<EventModel> updateEvent(UUID id, EventRecordDto eventRecordDto) {
+    Optional<EventModel> optionalExistingEvent = eventRepository.findById(id);
 
-    public Optional<EventModel> updateEvent(UUID id, EventRecordDto eventRecordDto) {
-        Optional<EventModel> optionalExistingEvent = eventRepository.findById(id);
+    InstitutionModel institution =
+        this.institutionService
+            .getInstitutionById(UUID.fromString(eventRecordDto.institutionId()))
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException(
+                        "Institution not found with ID: " + eventRecordDto.institutionId()));
 
-        InstitutionModel institution =
-                institutionRepository
-                        .findById(UUID.fromString(eventRecordDto.institutionId()))
-                        .orElseThrow(
-                                () ->
-                                        new IllegalArgumentException(
-                                                "Institution not found with ID: " + eventRecordDto.institutionId()));
-
-        return optionalExistingEvent.map(existingEvent -> {
-            BeanUtils.copyProperties(eventRecordDto, existingEvent);
-            existingEvent.setInstitution(institution);
-            return eventRepository.save(existingEvent);
+    return optionalExistingEvent.map(
+        existingEvent -> {
+          BeanUtils.copyProperties(eventRecordDto, existingEvent);
+          existingEvent.setInstitution(institution);
+          return eventRepository.save(existingEvent);
         });
-    }
+  }
 
-    public boolean deleteEvent(UUID id) {
-        if (eventRepository.existsById(id)) {
-            eventRepository.deleteById(id);
-            return true;
-        } else {
-            return false;
-        }
+  public boolean deleteEvent(UUID id) {
+    if (eventRepository.existsById(id)) {
+      eventRepository.deleteById(id);
+      return true;
+    } else {
+      return false;
     }
+  }
 
-    private boolean isEventStartingToday(EventRecordDto eventRecordDto) {
-        return eventRecordDto.startDate().isEqual(LocalDate.now());
-    }
+  private boolean isEventStartingToday(EventRecordDto eventRecordDto) {
+    return eventRecordDto.startDate().isEqual(LocalDate.now());
+  }
 }

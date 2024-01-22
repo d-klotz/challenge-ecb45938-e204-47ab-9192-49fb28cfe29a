@@ -18,19 +18,19 @@ public class EventController {
 
   @PostMapping("/events")
   public ResponseEntity<EventModel> createEvent(@RequestBody EventRecordDto eventDto) {
-    EventModel createdEvent = eventService.createEvent(eventDto);
+    EventModel createdEvent = this.eventService.createEvent(eventDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(createdEvent);
   }
 
   @GetMapping("/events")
   public ResponseEntity<List<EventModel>> getAllEvents() {
-    List<EventModel> events = eventService.getAllEvents();
+    List<EventModel> events = this.eventService.getAllEvents();
     return ResponseEntity.ok().body(events);
   }
 
   @GetMapping("/events/{id}")
   public ResponseEntity<EventModel> getEventById(@PathVariable UUID id) {
-    Optional<EventModel> optionalEvent = eventService.getEventById(id);
+    Optional<EventModel> optionalEvent = this.eventService.getEventById(id);
 
     return optionalEvent
         .map(event -> ResponseEntity.ok().body(event))
@@ -40,7 +40,7 @@ public class EventController {
   @PutMapping("/events/{id}")
   public ResponseEntity<EventModel> updateEvent(
       @PathVariable UUID id, @RequestBody EventRecordDto eventDto) {
-    Optional<EventModel> optionalUpdatedEvent = eventService.updateEvent(id, eventDto);
+    Optional<EventModel> optionalUpdatedEvent = this.eventService.updateEvent(id, eventDto);
 
     return optionalUpdatedEvent
         .map(event -> ResponseEntity.ok().body(event))
@@ -49,7 +49,7 @@ public class EventController {
 
   @DeleteMapping("/events/{id}")
   public ResponseEntity<Void> deleteEvent(@PathVariable UUID id) {
-    if (eventService.deleteEvent(id)) {
+    if (this.eventService.deleteEvent(id)) {
       return ResponseEntity.noContent().build();
     } else {
       return ResponseEntity.notFound().build();
