@@ -4,7 +4,6 @@ import com.events.chalenge.dtos.EventRecordDto;
 import com.events.chalenge.models.EventModel;
 import com.events.chalenge.models.InstitutionModel;
 import com.events.chalenge.repositories.EventRepository;
-import com.events.chalenge.repositories.InstitutionRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +21,11 @@ public class EventService {
   @Autowired private InstitutionService institutionService;
 
   public EventModel createEvent(EventRecordDto eventRecordDto) {
+
+    if (isEndDayBeforeStartDay(eventRecordDto)) {
+      throw new IllegalArgumentException("End date cannot be before start date.");
+    }
+
     InstitutionModel institution =
         this.institutionService
             .getInstitutionById(UUID.fromString(eventRecordDto.institutionId()))
@@ -75,5 +79,13 @@ public class EventService {
 
   private boolean isEventStartingToday(EventRecordDto eventRecordDto) {
     return eventRecordDto.startDate().isEqual(LocalDate.now());
+  }
+
+  private boolean isStartDayAfterEndDay(EventRecordDto eventRecordDto) {
+    return eventRecordDto.startDate().isAfter(eventRecordDto.endDate());
+  }
+
+  private boolean isEndDayBeforeStartDay(EventRecordDto eventRecordDto) {
+    return eventRecordDto.endDate().isBefore(eventRecordDto.startDate());
   }
 }

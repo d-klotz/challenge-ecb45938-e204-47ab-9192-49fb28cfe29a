@@ -1,7 +1,6 @@
 package com.events.chalenge.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -35,11 +34,6 @@ public class EventModel implements Serializable {
   @ManyToOne
   @JoinColumn(name = "institution_id")
   private InstitutionModel institution;
-
-  @AssertTrue(message = "Start date must be before the end date.")
-  private boolean isValidDateRange() {
-    return startDate == null || endDate == null || !startDate.isAfter(endDate);
-  }
 
   public UUID getId() {
     return id;
