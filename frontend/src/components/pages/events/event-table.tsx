@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Badge,
   IconButton,
   Table,
   TableContainer,
@@ -35,6 +36,7 @@ const EventTable: React.FC<EventTableProps> = ({
         <Thead>
           <Tr>
             <Th>Nome</Th>
+            <Th>Status</Th>
             <Th>Início</Th>
             <Th>Término</Th>
             <Th>Instituição</Th>
@@ -42,9 +44,16 @@ const EventTable: React.FC<EventTableProps> = ({
           </Tr>
         </Thead>
         <Tbody>
-          {events.map((event) => (
+          {sortedEventsByActive(events).map((event) => (
             <Tr key={event.id} borderTopWidth="1px" borderColor="gray.600">
               <Td>{event.name}</Td>
+              <Td>
+                {event.active ? (
+                  <Badge colorScheme="green">Ativo</Badge>
+                ) : (
+                  <Badge colorScheme="gray">Inativo</Badge>
+                )}
+              </Td>
               <Td>{event.startDate.toString()}</Td>
               <Td>{event.endDate.toString()}</Td>
               <Td>{event.institution.name}</Td>
@@ -72,3 +81,11 @@ const EventTable: React.FC<EventTableProps> = ({
 };
 
 export default EventTable;
+
+const sortedEventsByActive = (events: Event[]) => {
+  return events.sort((a: Event, b: Event) => {
+    // todo: fix type incosistency
+    // @ts-ignore
+    return b.active - a.active;
+  });
+};

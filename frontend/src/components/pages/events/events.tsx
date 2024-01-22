@@ -43,6 +43,16 @@ const Events = () => {
     onOpen();
   };
 
+  const handleCloseForCreateEditModal = () => {
+    setSelectedEvent(undefined);
+    onClose();
+  };
+
+  const handleCloseForDeleteModal = () => {
+    setSelectedEvent(undefined);
+    onDeleteClose();
+  };
+
   if (!events) return <div>Erro ao carregar eventos</div>;
   if (isLoading) return <div>Carregando...</div>;
 
@@ -72,7 +82,7 @@ const Events = () => {
       {institutions && (
         <CreateEditEventModal
           isOpen={isOpen}
-          onClose={onClose}
+          onClose={handleCloseForCreateEditModal}
           selectedEvent={selectedEvent}
           institutions={institutions}
         />
@@ -81,7 +91,7 @@ const Events = () => {
       {selectedEvent && (
         <DeleteEventModal
           isOpen={isDeleteOpen}
-          onClose={onDeleteClose}
+          onClose={handleCloseForDeleteModal}
           eventId={selectedEvent.id!}
         />
       )}

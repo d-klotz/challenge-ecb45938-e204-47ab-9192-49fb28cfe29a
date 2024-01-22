@@ -2,7 +2,7 @@ import { Box, ContainerProps, Flex, forwardRef, Text } from "@chakra-ui/react";
 
 const Navbar = forwardRef<ContainerProps, "div">((props, ref) => {
   return (
-    <Box h="100vh" bg="gray.700" ref={ref} {...props}>
+    <Box minH="100vh" bg="gray.700" ref={ref} {...props}>
       <Flex direction="column" p={4}>
         <Text fontSize="xl" fontWeight="bold" mb={4} color="white">
           Index Bank
