@@ -32,6 +32,16 @@ const Institutions = () => {
     onDeleteOpen();
   };
 
+  const openEditModal = (institution: Institution) => {
+    setSelectedInstitution(institution);
+    onOpen();
+  };
+
+  const handleCloseForCreateEditModal = () => {
+    setSelectedInstitution(undefined);
+    onClose();
+  };
+
   if (isLoading) return <div>Carregando...</div>;
   if (!institutions) return <div>Erro ao carregar instituições</div>;
 
@@ -55,10 +65,14 @@ const Institutions = () => {
       <InstitutionTable
         institutions={institutions}
         onDelete={openDeleteModal}
-        onEdit={() => onOpen()}
+        onEdit={openEditModal}
       />
 
-      <CreateEditModal isOpen={isOpen} onClose={onClose} />
+      <CreateEditModal
+        isOpen={isOpen}
+        onClose={handleCloseForCreateEditModal}
+        selectedInstitution={selectedInstitution}
+      />
       {selectedInstitution && (
         <DeleteInstitutionModal
           isOpen={isDeleteOpen}

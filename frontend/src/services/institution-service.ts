@@ -25,6 +25,34 @@ export const createInstitution = async (
   }
 };
 
+export const updateInstitution = async (
+  institutionId: string,
+  formData: z.infer<typeof InstitutionSchema>,
+): Promise<boolean> => {
+  try {
+    const response = await fetch(
+      `http://localhost:8080/institutions/${institutionId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      },
+    );
+
+    if (response.ok) {
+      return true;
+    } else {
+      console.error("Failed to update institution:", response.statusText);
+      return false;
+    }
+  } catch (error: any) {
+    console.error("Error updating institution:", error.message);
+    return false;
+  }
+};
+
 export const deleteInstitution = async (id: string): Promise<boolean> => {
   try {
     const response = await fetch(`http://localhost:8080/institutions/${id}`, {

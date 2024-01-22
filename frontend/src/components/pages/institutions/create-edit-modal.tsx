@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   ButtonGroup,
@@ -19,17 +19,39 @@ import {
 import { ZodError } from "zod";
 import { InstitutionSchema } from "../../../validations/institution-schema.ts";
 import { InstitutionType } from "../../../types/institution-type.ts";
-import { createInstitution } from "../../../services/institution-service.ts";
+import {
+  createInstitution,
+  updateInstitution,
+} from "../../../services/institution-service.ts";
+import { Institution } from "../../../types/institution.ts";
 
 interface CustomModalProps {
   isOpen: boolean;
   onClose: () => void;
+  selectedInstitution?: Institution;
 }
 
-const CreateEditModal: React.FC<CustomModalProps> = ({ isOpen, onClose }) => {
-  const [formData, setFormData] = useState({ name: "", type: "" });
+const CreateEditModal: React.FC<CustomModalProps> = ({
+  isOpen,
+  onClose,
+  selectedInstitution,
+}) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    type: "",
+  });
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
   const [isLoading, setIsLoading] = useState(false);
+  const isEditMode = !!selectedInstitution;
+
+  useEffect(() => {
+    if (selectedInstitution) {
+      setFormData({
+        name: selectedInstitution.name,
+        type: selectedInstitution.type,
+      });
+    }
+  }, [selectedInstitution]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -47,7 +69,9 @@ const CreateEditModal: React.FC<CustomModalProps> = ({ isOpen, onClose }) => {
     try {
       const validatedFormData = InstitutionSchema.parse(formData);
       setIsLoading(true);
-      const result = await createInstitution(validatedFormData);
+      const result = isEditMode
+        ? await updateInstitution(selectedInstitution.id, validatedFormData)
+        : await createInstitution(validatedFormData);
       setIsLoading(false);
 
       if (result) {
@@ -76,7 +100,9 @@ const CreateEditModal: React.FC<CustomModalProps> = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={onModalClose}>
       <ModalOverlay />
       <ModalContent bg="gray.800" color="white">
-        <ModalHeader>Cadastro de Instituição</ModalHeader>
+        <ModalHeader>
+          {isEditMode ? "Alteração de Instituição" : "Cadastro de Instituição"}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <form onSubmit={handleSubmit}>
