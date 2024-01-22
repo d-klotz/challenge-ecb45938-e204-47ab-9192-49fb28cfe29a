@@ -84,7 +84,7 @@ export default EventTable;
 
 const sortedEventsByActive = (events: Event[]) => {
   return events.sort((a: Event, b: Event) => {
-    // todo: fix type incosistency
+    // todo: fix type inconsistency
     // @ts-ignore
     return b.active - a.active;
   });
