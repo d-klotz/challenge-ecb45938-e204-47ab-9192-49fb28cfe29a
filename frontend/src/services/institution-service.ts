@@ -1,5 +1,6 @@
 import { InstitutionSchema } from "../validations/institution-schema.ts";
 import { z } from "zod";
+import { Institution } from "../types/institution.ts";
 
 export const createInstitution = async (
   formData: z.infer<typeof InstitutionSchema>,
@@ -27,7 +28,7 @@ export const createInstitution = async (
 
 export const updateInstitution = async (
   institutionId: string,
-  formData: z.infer<typeof InstitutionSchema>,
+  formData: Institution,
 ): Promise<boolean> => {
   try {
     const response = await fetch(

@@ -62,7 +62,10 @@ const CreateEditEventModal: React.FC<CustomModalProps> = ({
   ) => {
     setFormData((prevData) => ({
       ...prevData,
-      [e.target.name]: e.target.value,
+      [e.target.name]:
+        e.target.name === "institution"
+          ? institutions.find((inst) => inst.id === e.target.value) || undefined
+          : e.target.value,
     }));
     setFormErrors({});
   };
@@ -71,10 +74,15 @@ const CreateEditEventModal: React.FC<CustomModalProps> = ({
     e.preventDefault();
 
     try {
-      const validatedFormData = EventSchema.parse(formData);
+      console.log(formData);
+      const validatedFormData = EventSchema.parse({
+        ...formData,
+        startDate: new Date(formData.startDate),
+        endDate: new Date(formData.endDate),
+      });
       setIsLoading(true);
       const result = isEditMode
-        ? await updateEvent(validatedFormData)
+        ? await updateEvent(selectedEvent.id!, validatedFormData)
         : await createEvent(validatedFormData);
       setIsLoading(false);
 

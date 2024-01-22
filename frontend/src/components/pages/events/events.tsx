@@ -13,6 +13,8 @@ import { useState } from "react";
 import useSWR from "swr";
 import { Event } from "../../../types/event.ts";
 import CreateEditEventModal from "./create-edit-event-modal.tsx";
+import { Institution } from "../../../types/institution.ts";
+import DeleteEventModal from "./delete-event-modal.tsx";
 
 const Events = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -28,7 +30,7 @@ const Events = () => {
     "http://localhost:8080/events",
   );
 
-  const { data: institutions } = useSWR<Event[]>(
+  const { data: institutions } = useSWR<Institution[]>(
     "http://localhost:8080/institutions",
   );
 
@@ -66,12 +68,23 @@ const Events = () => {
         onDelete={openDeleteModal}
         onEdit={openEditModal}
       />
-      <CreateEditEventModal
-        isOpen={isOpen}
-        onClose={onClose}
-        selectedEvent={selectedEvent}
-        institutions={institutions}
-      />
+
+      {institutions && (
+        <CreateEditEventModal
+          isOpen={isOpen}
+          onClose={onClose}
+          selectedEvent={selectedEvent}
+          institutions={institutions}
+        />
+      )}
+
+      {selectedEvent && (
+        <DeleteEventModal
+          isOpen={isDeleteOpen}
+          onClose={onDeleteClose}
+          eventId={selectedEvent.id!}
+        />
+      )}
     </Box>
   );
 };

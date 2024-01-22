@@ -18,14 +18,14 @@ GET localhost:8080/events
 Accept: application/json
 
 ### Updates an event
-PUT localhost:8080/events/04ba736b-b90c-453e-9bf0-85e40a247079
+PUT localhost:8080/events/1c8a7604-819b-41a1-92e3-c1568a49e8ea
 Content-Type: application/json
 
 {
-  "name": "Demonstracao de Resultados 2026",
-  "startDate": "2026-02-01",
-  "endDate": "2026-02-02",
-  "institutionId": "78177c74-82dd-4b1e-86a2-8a5cde156cc1"
+  "name": "Test Daniel",
+  "startDate": "2024-05-01T00:00:00.000Z",
+  "endDate": "2024-05-02T00:00:00.000Z",
+  "institutionId": "5fb7944d-a29e-4b30-8e20-aed2ffd9d954"
 }
 
 ### Deletes an event

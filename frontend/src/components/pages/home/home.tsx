@@ -31,18 +31,8 @@ const Home = () => {
   );
 };
 
-//todo: fix timezone issues
 const filterActiveEvents = (events: Event[]): Event[] => {
-  const currentDate = new Date().toISOString().split("T")[0];
-
-  return events.filter((event) => {
-    const startDate = event.startDate;
-    const endDate = event.endDate;
-
-    return (
-      startDate === currentDate && new Date(endDate) >= new Date(currentDate)
-    );
-  });
+  return events.filter((event) => event.active);
 };
 
 export default Home;

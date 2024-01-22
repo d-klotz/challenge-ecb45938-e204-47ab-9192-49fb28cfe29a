@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Badge,
   IconButton,
   Table,
   TableContainer,
@@ -47,7 +48,9 @@ const InstitutionTable: React.FC<InstitutionTableProps> = ({
               borderColor="gray.600"
             >
               <Td>{institution.name}</Td>
-              <Td>{institution.type}</Td>
+              <Td>
+                <Badge colorScheme="orange">{institution.type}</Badge>
+              </Td>
               <Td>
                 <IconButton
                   icon={<EditIcon />}

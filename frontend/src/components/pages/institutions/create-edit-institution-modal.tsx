@@ -70,7 +70,7 @@ const CreateEditInstitutionModal: React.FC<CustomModalProps> = ({
       const validatedFormData = InstitutionSchema.parse(formData);
       setIsLoading(true);
       const result = isEditMode
-        ? await updateInstitution(selectedInstitution.id, validatedFormData)
+        ? await updateInstitution(selectedInstitution.id!, validatedFormData)
         : await createInstitution(validatedFormData);
       setIsLoading(false);
 
