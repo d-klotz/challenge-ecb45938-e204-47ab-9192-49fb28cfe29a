@@ -19,7 +19,7 @@ import {
 import { ZodError } from "zod";
 import { Event } from "../../../types/event.ts";
 import { createEvent, updateEvent } from "../../../services/event-service.ts";
-import { EventSchema } from "../../../validations/event-schema.ts";
+import { EventSchema } from "../../../schemas/event-schema.ts";
 import { Institution } from "../../../types/institution.ts";
 import { css } from "@emotion/react";
 
@@ -39,7 +39,7 @@ const CreateEditEventModal: React.FC<CustomModalProps> = ({
   const [formData, setFormData] = useState({
     name: "",
     startDate: new Date(),
-    endDate: new Date(),
+    endDate: new Date(Date.now() + 3600 * 1000 * 24),
     institution: undefined as unknown as Institution,
   });
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
@@ -135,7 +135,9 @@ const CreateEditEventModal: React.FC<CustomModalProps> = ({
                   placeholder="Insira um nome"
                 />
                 {formErrors["name"] && (
-                  <div style={{ color: "red" }}>{formErrors["name"]}</div>
+                  <label htmlFor="name" style={{ color: "red" }}>
+                    {formErrors["name"]}
+                  </label>
                 )}
               </FormControl>
 
@@ -155,12 +157,14 @@ const CreateEditEventModal: React.FC<CustomModalProps> = ({
                   placeholder="Selecione uma data de início"
                 />
                 {formErrors["startDate"] && (
-                  <div style={{ color: "red" }}>{formErrors["startDate"]}</div>
+                  <label htmlFor="startDate" style={{ color: "red" }}>
+                    {formErrors["startDate"]}
+                  </label>
                 )}
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor="endDateDate">Data de Término</FormLabel>
+                <FormLabel htmlFor="endDate">Data de Término</FormLabel>
                 <Input
                   css={css`
                     ::-webkit-calendar-picker-indicator {
@@ -175,7 +179,9 @@ const CreateEditEventModal: React.FC<CustomModalProps> = ({
                   placeholder="Selecione uma data de término"
                 />
                 {formErrors["endDate"] && (
-                  <div style={{ color: "red" }}>{formErrors["endDate"]}</div>
+                  <label htmlFor="endDate" style={{ color: "red" }}>
+                    {formErrors["endDate"]}
+                  </label>
                 )}
               </FormControl>
 
@@ -199,9 +205,9 @@ const CreateEditEventModal: React.FC<CustomModalProps> = ({
                   ))}
                 </Select>
                 {formErrors["institution"] && (
-                  <div style={{ color: "red" }}>
+                  <label htmlFor="institution" style={{ color: "red" }}>
                     {formErrors["institution"]}
-                  </div>
+                  </label>
                 )}
               </FormControl>
               <ButtonGroup>

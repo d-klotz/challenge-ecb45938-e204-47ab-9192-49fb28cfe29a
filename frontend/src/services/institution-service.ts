@@ -1,4 +1,4 @@
-import { InstitutionSchema } from "../validations/institution-schema.ts";
+import { InstitutionSchema } from "../schemas/institution-schema.ts";
 import { z } from "zod";
 import { Institution } from "../types/institution.ts";
 

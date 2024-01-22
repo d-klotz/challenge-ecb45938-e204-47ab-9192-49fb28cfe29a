@@ -17,7 +17,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { ZodError } from "zod";
-import { InstitutionSchema } from "../../../validations/institution-schema.ts";
+import { InstitutionSchema } from "../../../schemas/institution-schema.ts";
 import { InstitutionType } from "../../../types/institution-type.ts";
 import {
   createInstitution,
