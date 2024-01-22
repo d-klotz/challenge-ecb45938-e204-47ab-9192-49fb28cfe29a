@@ -36,3 +36,4 @@ Caso queira utilizar o docker, existe um arquivo `docker-compose.yml` na raiz do
 2. Adicionaria mais interatividade e feedback na interface para que todas as operacoes pudessem ser mais fluidas e informativas, como animacoes, loaders, toasters e banners de erros.
 3. Adicionaria mais testes unitarios e de integracao entre componentes.
 4. Abstrairia os componentes em componentes mais simples e reutilizaveis a fim de melhorar a legibilidade do codigo.
+5. Melhoriaria os Inputs de data nos modais de cadastro e tambem adicionaria uma melhor conversao de datas para adaptar ao padrao brasileiro.
