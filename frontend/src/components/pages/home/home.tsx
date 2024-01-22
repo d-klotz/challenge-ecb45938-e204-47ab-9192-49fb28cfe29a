@@ -31,8 +31,9 @@ const Home = () => {
   );
 };
 
+//todo: fix timezone issues
 const filterActiveEvents = (events: Event[]): Event[] => {
-  const currentDate = new Date().toISOString().split("T")[0]; // Get current date in "yyyy-MM-dd" format
+  const currentDate = new Date().toISOString().split("T")[0];
 
   return events.filter((event) => {
     const startDate = event.startDate;
