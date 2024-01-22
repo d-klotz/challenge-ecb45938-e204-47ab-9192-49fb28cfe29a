@@ -1,5 +1,12 @@
 import React from "react";
-import { Avatar, AvatarGroup, Badge, Box, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  AvatarGroup,
+  Badge,
+  Box,
+  Heading,
+  Text,
+} from "@chakra-ui/react";
 import { Event } from "../../../types/event.ts";
 
 const EventCard: React.FC<{
@@ -25,7 +32,8 @@ const EventCard: React.FC<{
           </Text>
         </Box>
 
-        <Text
+        <Heading
+          as="h1"
           mt="2"
           fontSize="xl"
           fontWeight="semibold"
@@ -33,7 +41,7 @@ const EventCard: React.FC<{
           color="gray.300"
         >
           {event.name}
-        </Text>
+        </Heading>
 
         <Text mt="1" color="gray.500">
           Inicio: {event.startDate.toString()}
